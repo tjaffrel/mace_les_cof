@@ -1,0 +1,36 @@
+[project]
+name = "mace_les_cof"
+version = "0.1.0"
+description = "MACE with Latent Ewald Summation (LES) for long-range interactions"
+channels = ["conda-forge", "pytorch"]
+platforms = ["linux-64"]
+
+[dependencies]
+python = ">=3.10,<3.12"
+pytorch = ">=2.0"
+numpy = "<2.0"
+ase = ">=3.22"
+pymatgen = ">=2024.1.0"
+scipy = ">=1.10"
+matplotlib = ">=3.7"
+
+[pypi-dependencies]
+mace-torch = { git = "https://github.com/ChengUCB/mace.git" }
+e3nn = "*"
+les = { git = "https://github.com/ChengUCB/les.git" }
+
+[tasks]
+test-imports = "python -c 'import mace; import les; import ase; import pymatgen; print(\"All packages imported successfully!\")'"
+single-point = "python single_point.py"
+relax = "python relax_structure.py"
+
+[feature.cuda]
+platforms = ["linux-64"]
+
+[feature.cuda.dependencies]
+pytorch-cuda = ">=12.1"
+
+[environments]
+default = { solve-group = "default" }
+cuda = { features = ["cuda"], solve-group = "default" }
+
